@@ -1,0 +1,210 @@
+{
+  "total_questions": 20,
+  "correct_answers": 0,
+  "wrong_answers": 20,
+  "accuracy": 0.0,
+  "average_confidence": 0.0,
+  "timestamp": "2026-02-09T16:53:27.164201",
+  "detailed_results": [
+    {
+      "question": "What is RAG and why was it introduced?",
+      "expected_answer": "RAG (Retrieval-Augmented Generation) was introduced in mid-2020 by Lewis et al. to address LLM hallucinations and inaccuracies. It integrates external data retrieval before text generation, allowing LLMs to search knowledge bases for relevant information, which enhances accuracy and relevance of outputs.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What are the main application categories of RAG based on NLP tasks?",
+      "expected_answer": "The survey identified seven task-based categories: Question Answering (20 studies - the largest), Text Generation and Summarization (6), Information Retrieval and Extraction (6), Text Analysis and Processing (5), Decision Making and Applications (5), Software Development and Maintenance (4), and Other Categories (6).",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "Which disciplines have adopted RAG technology the most?",
+      "expected_answer": "Medical/Biomedical and Technology/Software Development lead with 9 publications each. Social and Communication has 7, while Financial and Educational fields have only 2 each. The survey notes that Business and Agriculture remain underrepresented in RAG research.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What is the primary motivation for introducing Retrieval-Augmented Generation (RAG) into Large Language Models?",
+      "expected_answer": "To improve factual accuracy and reduce hallucinations by using external knowledge.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What are the two main stages of a Retrieval-Augmented Generation system?",
+      "expected_answer": "A RAG system consists of a retrieval stage that fetches relevant documents and a generation stage that produces answers using the retrieved context.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What distinguishes Modular RAG from Naive and Advanced RAG?",
+      "expected_answer": "Modular RAG introduces flexible and replaceable modules (such as search, memory, validation, and alignment modules) that can be reorganized or combined depending on the task.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What is TreeQA and what problem does it solve?",
+      "expected_answer": "TreeQA is a framework for multi-hop question answering that decomposes complex questions into a hierarchical logic tree of simpler sub-questions. It addresses LLM limitations like hallucination and error propagation by combining structured knowledge (Wikidata) with unstructured text (Wikipedia) and using iterative validation to correct reasoning errors.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 0,
+      "used_rag": false
+    },
+    {
+      "question": "How does TreeQA's self-correction mechanism work?",
+      "expected_answer": "TreeQA validates each node's hypothesis against retrieved evidence and classifies it as Supported, Refuted, or Unknown. When evidence contradicts a hypothesis (Refuted), the system reconstructs the entire sub-tree with corrected reasoning. If evidence is insufficient (Unknown), it generates new retrieval clues and retries up to a maximum number of attempts.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 0,
+      "used_rag": false
+    },
+    {
+      "question": "What performance improvements does TreeQA achieve?",
+      "expected_answer": "TreeQA achieved Hit@1 scores of 87%, 57%, 53%, and 59% on WebQSP, QALD-en, AdvHotpotQA, and 2WikiMultiHopQA datasets respectively, representing 4-12% improvements over state-of-the-art LLM-RAG methods. The framework showed the largest relative improvements on weaker LLMs (up to 129% gain) while still enhancing stronger models.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What is the main purpose of Retrieval Augmented Generation (RAG)?",
+      "expected_answer": "To allow LLMs to access external knowledge sources by retrieving relevant text chunks.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "Why do traditional RAG pipelines often fail when working with financial documents?",
+      "expected_answer": "They use uniform chunking that ignores document structure like headings and tables.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What does the HyDE (Hypothetical Document Embeddings) technique do to improve retrieval?",
+      "expected_answer": "It generates a hypothetical answer document using an LLM and performs similarity search using both query and generated text.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What is the main role of retrieval in a RAG system?",
+      "expected_answer": "To select the most relevant text chunks that will be used as context for answering a query.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "Why can simple similarity search fail in retrieval systems?",
+      "expected_answer": "Because the most similar chunk is not always the most relevant chunk for answering the question.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What is the purpose of using re-ranking in retrieval pipelines?",
+      "expected_answer": "To reorder retrieved chunks based on relevance so the best supporting context is chosen for generation.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "Why is Retrieval-Augmented Generation (RAG) needed for Large Language Models?",
+      "expected_answer": "LLMs suffer from key limitations such as outdated knowledge, weak performance in specialized domains, and hallucinations (confident but incorrect answers). RAG addresses these issues by retrieving up-to-date external information during inference instead of relying only on training data. This allows models to generate more accurate, reliable, and context-aware responses. Importantly, RAG achieves this without expensive retraining or fine-tuning.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What are the core stages of the RAG framework?",
+      "expected_answer": "The RAG framework has four main stages: pre-retrieval, retrieval, post-retrieval, and generation. Pre-retrieval focuses on indexing and query preparation, retrieval handles search and ranking, post-retrieval refines results through re-ranking and filtering, and generation integrates retrieved content into the final output.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What are Retrieval-Augmented Large Language Models (RA-LLMs)?",
+      "expected_answer": "RA-LLMs combine large language models with external retrieval systems to access up-to-date and task-relevant information, improving accuracy and adaptability.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "What are the main components of the RA-LLM framework?",
+      "expected_answer": "The main components are retrieval, augmentation, and generation, with a mechanism to decide when retrieval is necessary.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    },
+    {
+      "question": "Why is retrieval important in RAG-based models?",
+      "expected_answer": "Retrieval provides external knowledge that reduces hallucinations and enhances performance in knowledge-intensive tasks.",
+      "agent_answer": "Error generating answer with Gemini: 400 INVALID_ARGUMENT. {'error': {'code': 400, 'message': 'API key expired. Please renew the API key.', 'status': 'INVALID_ARGUMENT', 'details': [{'@type': 'type.googleapis.com/google.rpc.ErrorInfo', 'reason': 'API_KEY_INVALID', 'domain': 'googleapis.com', 'metadata': {'service': 'generativelanguage.googleapis.com'}}, {'@type': 'type.googleapis.com/google.rpc.LocalizedMessage', 'locale': 'en-US', 'message': 'API key expired. Please renew the API key.'}]}}",
+      "match": false,
+      "confidence": 0,
+      "reasoning": "Error during judgment: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.', 'status': 'NOT_FOUND'}}",
+      "sources_used": 3,
+      "used_rag": true
+    }
+  ]
+}

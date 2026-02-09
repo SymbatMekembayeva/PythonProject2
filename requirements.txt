@@ -1,0 +1,4 @@
+protobuf
+langchain
+langchain_community
+qdrant-client
