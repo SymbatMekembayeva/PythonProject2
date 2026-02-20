@@ -11,14 +11,7 @@ from services.rag_agent import RAGAgent
 class LLMJudge:
 
     def __init__(self, api_key: str, model: str = "gemini-2.5-flash"):
-        """
-        Initialize LLM Judge.
-
-        Args:
-            api_key: Gemini API key
-            model: Gemini model to use for judging
-        """
-        self.client = genai.Client(api_key="AIzaSyALlRTA7V5myO99ZCEuXF7MqTXMHYfx6mU")
+        self.client = genai.Client(api_key="AIzaSyDc2A60a5wHWWQgzaHKLsAhnB948oPBF-g")
         self.model = model
 
     def judge_answer(
@@ -27,18 +20,7 @@ class LLMJudge:
             agent_answer: str,
             expected_answer: str
     ) -> Dict[str, Any]:
-        """
-        Judge if agent's answer matches the expected answer in meaning.
 
-        Args:
-            question: The question asked
-            agent_answer: Answer from the RAG agent
-            expected_answer: Ground truth answer
-
-        Returns:
-            Dictionary with judgment (True/False), reasoning, and confidence
-        """
-        # Create judgment prompt
         prompt = f"""You are an expert evaluator judging if two answers to the same question have the same meaning.
 
 Question: {question}
@@ -74,15 +56,12 @@ REASONING: The agent's answer is missing the key concept of attention mechanisms
 """
 
         try:
-            # Call Gemini to judge
             response = self.client.models.generate_content(
                 model=f"models/{self.model}",
                 contents=prompt
             )
 
             judgment_text = response.text.strip()
-
-            # Parse the response
             judgment = self._parse_judgment(judgment_text)
 
             return judgment
@@ -97,15 +76,7 @@ REASONING: The agent's answer is missing the key concept of attention mechanisms
             }
 
     def _parse_judgment(self, text: str) -> Dict[str, Any]:
-        """
-        Parse the judgment response from LLM.
 
-        Args:
-            text: Raw response from LLM
-
-        Returns:
-            Parsed judgment dictionary
-        """
         lines = text.strip().split('\n')
 
         judgment = None
@@ -138,7 +109,6 @@ REASONING: The agent's answer is missing the key concept of attention mechanisms
 
 
 class RAGEvaluator:
-    """Evaluates RAG agent performance using LLM-as-Judge."""
 
     def __init__(
             self,
@@ -146,26 +116,14 @@ class RAGEvaluator:
             judge: LLMJudge,
             dataset_path: str
     ):
-        """
-        Initialize evaluator.
 
-        Args:
-            rag_agent: The RAG agent to evaluate
-            judge: LLM judge for comparing answers
-            dataset_path: Path to JSON dataset file
-        """
         self.rag_agent = rag_agent
         self.judge = judge
         self.dataset_path = dataset_path
         self.results = []
 
     def load_dataset(self) -> List[Dict[str, str]]:
-        """
-        Load evaluation dataset from JSON file.
 
-        Returns:
-            List of question-answer pairs
-        """
         try:
             with open(self.dataset_path, 'r', encoding='utf-8') as f:
                 dataset = json.load(f)
@@ -183,16 +141,7 @@ class RAGEvaluator:
             verbose: bool = True,
             save_results: bool = True
     ) -> Dict[str, Any]:
-        """
-        Run evaluation on the entire dataset.
 
-        Args:
-            verbose: Print detailed progress
-            save_results: Save results to JSON file
-
-        Returns:
-            Evaluation summary with metrics
-        """
         print("\n" + "=" * 80)
         print("STARTING RAG AGENT EVALUATION")
         print("=" * 80)
@@ -283,12 +232,7 @@ class RAGEvaluator:
         return summary
 
     def save_results(self, summary: Dict[str, Any]):
-        """
-        Save evaluation results to JSON file.
 
-        Args:
-            summary: Evaluation summary to save
-        """
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"evaluation_results_{timestamp}.json"
 
@@ -322,7 +266,7 @@ def main():
 
     # Configuration
     DATASET_PATH = "../evaluation_dataset.json"
-    GEMINI_API_KEY = "AIzaSyCEdbNx3pxK5cwD1fwggC-zgjpRMEHH_9U"
+    GEMINI_API_KEY = "AIzaSyDc2A60a5wHWWQgzaHKLsAhnB948oPBF-g"
     COLLECTION_NAME = "pdf_documents"
 
     print("Initializing RAG Agent and LLM Judge...")
@@ -332,7 +276,7 @@ def main():
         rag_agent = RAGAgent(
             collection_name=COLLECTION_NAME,
             gemini_api_key=GEMINI_API_KEY,
-            gemini_model="gemini-1.5-flash",
+            gemini_model="gemini-2.5-flash",
             top_k=3,
             score_threshold=0.3
         )
@@ -343,7 +287,7 @@ def main():
     # Initialize LLM Judge
     judge = LLMJudge(
         api_key=GEMINI_API_KEY,
-        model="gemini-1.5-flash"
+        model="gemini-2.5-flash"
     )
 
     # Initialize Evaluator

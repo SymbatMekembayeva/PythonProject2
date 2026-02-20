@@ -1,10 +1,11 @@
 """
 RAG Agent for Question Answering
-Uses Qdrant for retrieval and Gemini for generation.
+Uses Qdrant for retrieval, optional Reranker for improved relevance, and Gemini for generation.
 """
 
 from typing import List, Dict, Any
 from qdrant_manager import QdrantManager
+from reranker_manager import RerankerManager
 from google import genai
 import os
 
@@ -16,11 +17,14 @@ class RAGAgent:
             self,
             collection_name: str = "pdf_documents",
             gemini_api_key: str = None,
-            gemini_model: str = "gemini-2.5-flash",  # Changed to stable model
+            cohere_api_key: str = None,
+            gemini_model: str = "gemini-2.5-flash",
             qdrant_url: str = "http://localhost:6333",
             ollama_url: str = "http://localhost:11434",
             top_k: int = 3,
-            score_threshold: float = 0.3
+            score_threshold: float = 0.3,
+            use_reranker: bool = False,
+            rerank_top_k: int = 10
     ):
         """
         Initialize RAG Agent.
@@ -28,16 +32,21 @@ class RAGAgent:
         Args:
             collection_name: Qdrant collection name
             gemini_api_key: Google Gemini API key (or set GEMINI_API_KEY env var)
+            cohere_api_key: Cohere API key for reranking (or set COHERE_API_KEY env var)
             gemini_model: Gemini model name (gemini-1.5-flash or gemini-1.5-pro)
             qdrant_url: Qdrant server URL
             ollama_url: Ollama URL for embeddings
-            top_k: Number of chunks to retrieve (3-5 recommended, lower = faster)
+            top_k: Number of final chunks to use for generation (3-5 recommended)
             score_threshold: Minimum similarity score for retrieval
+            use_reranker: Whether to use reranker for improved relevance
+            rerank_top_k: Number of candidates to retrieve before reranking (e.g., 10)
         """
         self.collection_name = collection_name
         self.gemini_model = gemini_model
         self.top_k = top_k
         self.score_threshold = score_threshold
+        self.use_reranker = use_reranker
+        self.rerank_top_k = rerank_top_k if use_reranker else top_k
 
         # Initialize Gemini with new API
         print("Initializing RAG Agent...")
@@ -54,15 +63,33 @@ class RAGAgent:
             ollama_url=ollama_url  # Still used for embeddings
         )
 
+        # Initialize Reranker (optional)
+        if use_reranker:
+            cohere_key = cohere_api_key or os.getenv('COHERE_API_KEY')
+            self.reranker = RerankerManager(
+                api_key=cohere_key,
+                enabled=True
+            )
+            if not self.reranker.is_enabled():
+                print("⚠️  Warning: Reranker initialization failed. Continuing without reranker.")
+                self.use_reranker = False
+        else:
+            self.reranker = None
+
         print(f"RAG Agent initialized with:")
         print(f"  - Collection: {collection_name}")
         print(f"  - LLM model: {gemini_model}")
         print(f"  - Retrieval: top_{top_k}, threshold={score_threshold}")
+        if use_reranker and self.reranker and self.reranker.is_enabled():
+            print(f"  - Reranker: ENABLED (retrieve top-{rerank_top_k}, rerank to top-{top_k})")
+        else:
+            print(f"  - Reranker: DISABLED")
 
     def retrieve_context(self, query: str) -> List[Dict[str, Any]]:
         """
         Retrieve relevant document chunks for a query.
         Uses top_k and score_threshold settings.
+        Optionally applies reranking for improved relevance.
 
         Args:
             query: User query
@@ -70,19 +97,45 @@ class RAGAgent:
         Returns:
             List of retrieved chunks with metadata
         """
+        # Determine how many candidates to retrieve
+        retrieve_k = self.rerank_top_k if self.use_reranker and self.reranker else self.top_k
+
+        # Search Qdrant
         results = self.qdrant_manager.search_by_text(
             query_text=query,
             collection_name=self.collection_name,
-            top_k=self.top_k,
+            top_k=retrieve_k,
             score_threshold=self.score_threshold
         )
 
         if results:
-            print(f"✓ Found {len(results)} relevant chunks")
+            print(f"✓ Retrieved {len(results)} candidates")
         else:
             print("✗ No relevant context found")
+            return results
 
-        return results
+        # Apply reranking if enabled
+        if self.use_reranker and self.reranker and self.reranker.is_enabled() and len(results) > self.top_k:
+            print(f"🔄 Reranking {len(results)} candidates to select best {self.top_k}...")
+            reranked_results = self.reranker.rerank(
+                query=query,
+                documents=results,
+                top_n=self.top_k
+            )
+
+            # Show reranking impact
+            if reranked_results:
+                print(f"✓ Reranking complete. Using top {len(reranked_results)} most relevant chunks")
+                # Log if order changed significantly
+                for i, doc in enumerate(reranked_results[:3]):
+                    orig_score = doc.get('original_score', 'N/A')
+                    rerank_score = doc.get('rerank_score', 'N/A')
+                    if orig_score != 'N/A' and rerank_score != 'N/A':
+                        print(f"  Top {i + 1}: similarity={orig_score:.2f} → relevance={rerank_score:.2f}")
+
+            return reranked_results
+
+        return results[:self.top_k]
 
     def format_context(self, results: List[Dict[str, Any]], max_length: int = 3000) -> str:
         """
@@ -104,14 +157,18 @@ class RAGAgent:
 
         for i, result in enumerate(results, 1):
             source = result['metadata'].get('source', 'Unknown')
-            score = result['score']
+
+            # Use rerank score if available, otherwise use original score
+            score = result.get('rerank_score', result.get('score', 0))
+            score_type = "relevance" if 'rerank_score' in result else "similarity"
+
             text = result['text']
 
             # Truncate individual chunks if too long
             if len(text) > 800:
                 text = text[:800] + "..."
 
-            chunk = f"[Source {i}: {source} (relevance: {score:.2f})]\n{text}"
+            chunk = f"[Source {i}: {source} ({score_type}: {score:.2f})]\n{text}"
 
             # Check if adding this chunk would exceed max_length
             if total_length + len(chunk) > max_length:
@@ -154,7 +211,7 @@ class RAGAgent:
             if stream:
                 # Handle streaming response
                 response = self.client.models.generate_content_stream(
-                    model=self.gemini_model,
+                    model=f"models/{self.gemini_model}",
                     contents=prompt
                 )
                 answer = ""
@@ -171,7 +228,7 @@ class RAGAgent:
             else:
                 # Handle non-streaming response
                 response = self.client.models.generate_content(
-                    model=self.gemini_model,
+                    model=f"models/{self.gemini_model}",
                     contents=prompt
                 )
                 answer = response.text
@@ -294,7 +351,7 @@ Answer:"""
 
             if stream:
                 response = self.client.models.generate_content_stream(
-                    model=self.gemini_model,
+                    model=f"models/{self.gemini_model}",
                     contents=prompt
                 )
                 answer = ""
@@ -307,7 +364,7 @@ Answer:"""
                 return answer if answer else "Error: Empty response"
             else:
                 response = self.client.models.generate_content(
-                    model=self.gemini_model,
+                    model=f"models/{self.gemini_model}",
                     contents=prompt
                 )
                 return response.text if response.text else "Error: Empty response"
@@ -326,6 +383,7 @@ Answer:"""
         """
         Answer a question using RAG (Retrieval Augmented Generation).
         Searches documents and generates answer based on retrieved context.
+        Optionally uses reranker for improved relevance.
 
         Args:
             query: User question
@@ -335,9 +393,13 @@ Answer:"""
         Returns:
             Dictionary with answer and metadata
         """
-        print(f"\n🔍 Searching documents (top_{self.top_k}, threshold={self.score_threshold})...")
+        if self.use_reranker and self.reranker and self.reranker.is_enabled():
+            print(
+                f"\n🔍 Searching documents with reranker (retrieve top-{self.rerank_top_k}, rerank to top-{self.top_k}, threshold={self.score_threshold})...")
+        else:
+            print(f"\n🔍 Searching documents (top_{self.top_k}, threshold={self.score_threshold})...")
 
-        # Step 1: Retrieve relevant context
+        # Step 1: Retrieve relevant context (with optional reranking)
         results = self.retrieve_context(query)
 
         if not results:
@@ -348,7 +410,8 @@ Answer:"""
                 "answer": answer,
                 "sources": [],
                 "num_sources": 0,
-                "used_rag": False
+                "used_rag": False,
+                "used_reranker": False
             }
 
         # Step 2: Format context
@@ -364,21 +427,23 @@ Answer:"""
         answer = self.generate_answer(query, context, stream=stream)
 
         # Extract sources
-        sources = [
-            {
+        sources = []
+        for r in results:
+            source_info = {
                 "source": r['metadata'].get('source', 'Unknown'),
-                "score": r['score'],
+                "score": r.get('rerank_score', r.get('score', 0)),
+                "score_type": "relevance" if 'rerank_score' in r else "similarity",
                 "text_preview": r['text'][:200] + "..." if len(r['text']) > 200 else r['text']
             }
-            for r in results
-        ]
+            sources.append(source_info)
 
         return {
             "query": query,
             "answer": answer,
             "sources": sources,
             "num_sources": len(results),
-            "used_rag": True
+            "used_rag": True,
+            "used_reranker": self.use_reranker and self.reranker and self.reranker.is_enabled()
         }
 
     def answer(
@@ -416,7 +481,8 @@ Answer:"""
                 "answer": answer,
                 "sources": [],
                 "num_sources": 0,
-                "used_rag": False
+                "used_rag": False,
+                "used_reranker": False
             }
 
         # Use RAG for domain-specific questions
@@ -439,6 +505,8 @@ Answer:"""
         print("=" * 80)
         print("\n💡 Smart mode: I'll automatically decide when to search documents")
         print("   vs. when to answer directly based on your question.")
+        if self.use_reranker and self.reranker and self.reranker.is_enabled():
+            print(f"\n🔄 Reranker ENABLED: Retrieving top-{self.rerank_top_k}, reranking to best {self.top_k}")
 
         show_context = False
         force_rag = False
@@ -482,7 +550,12 @@ Answer:"""
                 if result.get('used_rag', False) and result['sources']:
                     print(f"\n📖 Sources used ({result['num_sources']}):")
                     for i, source in enumerate(result['sources'], 1):
-                        print(f"  {i}. {source['source']} (score: {source['score']:.2f})")
+                        score_type = source.get('score_type', 'score')
+                        score = source.get('score', 0)
+                        print(f"  {i}. {source['source']} ({score_type}: {score:.2f})")
+
+                    if result.get('used_reranker', False):
+                        print("  ✨ Results were reranked for better relevance")
                 elif not result.get('used_rag', False):
                     print("\n💡 (Answered directly without searching documents)")
 
@@ -498,21 +571,19 @@ def main():
 
     # Configuration
     COLLECTION_NAME = "pdf_documents"
-    GEMINI_MODEL = "gemini-2.5-flash"  # Stable model that works
+    GEMINI_MODEL = "gemini-2.5-flash"
     QDRANT_URL = "http://localhost:6333"
-    OLLAMA_URL = "http://localhost:11434"  # Still needed for embeddings
+    OLLAMA_URL = "http://localhost:11434"
 
-    # Get Gemini API key
-    # Option 1: Set your API key directly here
-    GEMINI_API_KEY = "AIzaSyD5qqwwXF6jV2vQzwZmFDTgS2lD61qQx5w"  # Replace with your actual key
+    # API Keys
+    GEMINI_API_KEY = "AIzaSyD5qqwwXF6jV2vQzwZmFDTgS2lD61qQx5w"  # Your key
+    COHERE_API_KEY = "tnqr8H9s8WTdHUrtTxLwd89DMgUE479FfyE5uhAU"  # Set your Cohere API key or use env var
 
-    # Option 2: Or use environment variable (more secure)
-    # GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+    # Reranker settings
+    USE_RERANKER = True  # Set to True to enable reranker
 
     if not GEMINI_API_KEY:
         print("\n⚠️  GEMINI_API_KEY not set!")
-        print("\nPlease add your API key in the code or set environment variable")
-        print("Get an API key from: https://makersuite.google.com/app/apikey")
         return
 
     # Initialize agent
@@ -520,11 +591,14 @@ def main():
         agent = RAGAgent(
             collection_name=COLLECTION_NAME,
             gemini_api_key=GEMINI_API_KEY,
+            cohere_api_key=COHERE_API_KEY,
             gemini_model=GEMINI_MODEL,
             qdrant_url=QDRANT_URL,
             ollama_url=OLLAMA_URL,
             top_k=3,
-            score_threshold=0.3
+            score_threshold=0.3,
+            use_reranker=USE_RERANKER,
+            rerank_top_k=10  # Retrieve 10, rerank to best 3
         )
     except Exception as e:
         print(f"\n❌ Error initializing RAG agent: {e}")
@@ -540,10 +614,7 @@ def main():
             if count == 0:
                 print("\n⚠️  Warning: The collection is empty!")
                 print("Please run qdrant_populate.py first to add documents.")
-                print()
-                response = input("Continue anyway? (yes/no): ").strip().lower()
-                if response != 'yes':
-                    return
+                return
         else:
             print(f"\n⚠️  Collection '{COLLECTION_NAME}' does not exist!")
             print("Please run qdrant_populate.py first to create and populate the collection.")
@@ -556,6 +627,8 @@ def main():
     # Menu
     print("\n" + "=" * 80)
     print("RAG AGENT - QUESTION ANSWERING SYSTEM")
+    if USE_RERANKER:
+        print("(WITH RERANKER)")
     print("=" * 80)
     print("\nOptions:")
     print("1. Interactive chat mode")
@@ -573,9 +646,9 @@ def main():
             elif choice == "2":
                 # Sample questions
                 sample_questions = [
-                    "What is the main topic of the documents?",
-                    "Can you summarize the key points?",
-                    "What are the important findings?"
+                    "What is RAG?",
+                    "How does reranking improve retrieval?",
+                    "What are the main components of a RAG system?"
                 ]
 
                 print("\n" + "=" * 80)
@@ -584,7 +657,10 @@ def main():
 
                 for question in sample_questions:
                     result = agent.answer(question, stream=False, show_context=False)
-                    print(f"\nAnswer: {result['answer']}")
+                    print(f"\nQ: {question}")
+                    print(f"A: {result['answer'][:200]}...")
+                    if result.get('used_reranker'):
+                        print("   ✨ (Reranked)")
                     print("-" * 80)
 
             elif choice == "3":
